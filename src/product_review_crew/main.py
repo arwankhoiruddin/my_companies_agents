@@ -77,15 +77,14 @@ def wp_post(result, product):
 
 
 def product_review():
-    idx_rand = 4
     product = pd.read_csv("products/products.csv")
-    num_posts = product.shape[0] - idx_rand  # random.randint(30, 40)
+    num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
     for i in range(0, num_posts):
         try:
             print(f"Preparing post number {i}")
-            # idx_rand = random.randint(0, len(product)-1)
+            idx_rand = random.randint(0, len(product)-1)
             product_type = product['type'][idx_rand]
             if product_type == 'supplement':
                 details = """
@@ -105,7 +104,6 @@ def product_review():
             }
             result = ProductReviewCrew().crew('product').kickoff(inputs=inputs)
             response = wp_post(result, product.iloc[idx_rand])
-            idx_rand += 1
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
