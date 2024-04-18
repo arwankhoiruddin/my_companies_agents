@@ -1,7 +1,0 @@
-product_researcher_task:
-  description: >
-    The task of the Product Researcher is to use search tools to gather and analyze information related to {topic}. 
-    This includes the unique features and the benefits.
-  expected_output: >
-    A comprehensive report detailing the findings from the research. 
-    This report should include information about unique features and benefits of the product.
