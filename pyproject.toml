@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "supplement_review_crew"
+version = "1.0.0"
+description = "I have my company containing agents"
+authors = ["Arwan Khoiruddin <arwan@mandatech.co.id>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<=3.13"
+crewai = {extras = ["tools"], version = "^0.22.2"}
+langchain-groq = "^0.1.2"
+
+[tool.poetry.scripts]
+supplement_review_crew = "supplement_review_crew.main:run"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
