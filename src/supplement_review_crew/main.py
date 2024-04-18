@@ -8,7 +8,8 @@ def supplement_review():
     inputs = {
         'topic': 'Pineal XT',
     }
-    SupplementReviewCrew().crew().kickoff(inputs=inputs)
+    result = SupplementReviewCrew().crew().kickoff(inputs=inputs)
+    print(result)
 
 
 def run():
