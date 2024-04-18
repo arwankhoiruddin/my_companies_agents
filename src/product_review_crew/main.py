@@ -97,7 +97,8 @@ def product_review_random():
                     """
             elif product_type == 'book':
                 details = """
-                        book information, author, summary, effectiveness, 
+                        book information, summary, effectiveness, critique,
+                        audience, educational value, impact,
                         value for money and customer reviews
                     """
             product_name = product['product'][idx_rand] + f' {product_type}'
