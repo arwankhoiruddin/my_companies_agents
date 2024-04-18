@@ -58,7 +58,10 @@ def wp_post(result, product):
     title = title.replace("Title: ", "")
     media_id = product['media_id']
     tag_id = product['tag_id']
-    tags = [5, int(tag_id), 54]
+    if product['type'] == 'supplement':
+        tags = [4, int(tag_id), 5]
+    elif product['type'] == 'book':
+        tags = [54, int(tag_id), 5]
 
     # Data for creating a new post
     data = {
@@ -76,7 +79,7 @@ def wp_post(result, product):
     return response
 
 
-def product_review():
+def product_review_random():
     product = pd.read_csv("products/products.csv")
     num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
@@ -111,8 +114,45 @@ def product_review():
                 time.delay(60)
 
 
+def product_review_new():
+    product = pd.read_csv("products/products.csv")
+    num_posts = product.shape[0] - 1
+    print(f"Will be creating {num_posts} number of posts")
+
+    idx_rand = 0
+    for i in range(0, num_posts):
+        try:
+            print(f"Preparing post number {i}")
+            product_type = product['type'][idx_rand]
+            if product_type == 'supplement':
+                details = """
+                        product information, purpose and claim, effectiveness,
+                        ingredients, side effects, value for money and
+                        customer reviews
+                    """
+            elif product_type == 'book':
+                details = """
+                        book information, summary, effectiveness, critique,
+                        audience, educational value, impact,
+                        value for money and customer reviews
+                    """
+            product_name = product['product'][idx_rand] + f' {product_type}'
+            inputs = {
+                'topic': product_name,
+                'details': details,
+            }
+            result = ProductReviewCrew().crew('product').kickoff(inputs=inputs)
+            response = wp_post(result, product.iloc[idx_rand])
+            idx_rand += 1
+        except requests.exceptions.HTTPError as e:
+            print(e)
+            if response.status_code == 429:
+                import time
+                time.delay(60)
+
+
 def run():
-    product_review()
+    product_review_new()
 
 
 if __name__ == '--main__':
