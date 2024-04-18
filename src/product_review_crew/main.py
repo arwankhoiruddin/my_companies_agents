@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import requests
 import random
+import yaml
 
 
 load_dotenv()
@@ -84,23 +85,15 @@ def product_review_random():
     num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
+    with open('details.yaml', 'r') as file:
+        details_dict = yaml.safe_load(file)
+
     for i in range(0, num_posts):
         try:
             print(f"Preparing post number {i}")
             idx_rand = random.randint(0, len(product)-1)
             product_type = product['type'][idx_rand]
-            if product_type == 'supplement':
-                details = """
-                        product information, purpose and claim, effectiveness,
-                        ingredients, side effects, value for money and 
-                        customer reviews
-                    """
-            elif product_type == 'book':
-                details = """
-                        book information, summary, effectiveness, critique,
-                        audience, educational value, impact,
-                        value for money and customer reviews
-                    """
+            details = details_dict[product_type]['details']
             product_name = product['product'][idx_rand] + f' {product_type}'
             inputs = {
                 'topic': product_name,
@@ -120,23 +113,15 @@ def product_review_new():
     num_posts = product.shape[0] - 1
     print(f"Will be creating {num_posts} number of posts")
 
+    with open('details.yaml', 'r') as file:
+        details_dict = yaml.safe_load(file)
+
     idx_rand = 0
     for i in range(0, num_posts):
         try:
             print(f"Preparing post number {i}")
             product_type = product['type'][idx_rand]
-            if product_type == 'supplement':
-                details = """
-                        product information, purpose and claim, effectiveness,
-                        ingredients, side effects, value for money and
-                        customer reviews
-                    """
-            elif product_type == 'book':
-                details = """
-                        book information, summary, effectiveness, critique,
-                        audience, educational value, impact,
-                        value for money and customer reviews
-                    """
+            details = details_dict[product_type]['details']
             product_name = product['product'][idx_rand] + f' {product_type}'
             inputs = {
                 'topic': product_name,
