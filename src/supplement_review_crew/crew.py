@@ -8,7 +8,7 @@ class SupplementReviewCrew():
     """Crew for supplement review"""
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
-    
+
     def __init__(self) -> None:
         self.groq_llm = ChatGroq(
             temperature=0,
