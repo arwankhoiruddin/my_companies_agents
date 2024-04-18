@@ -85,7 +85,7 @@ def product_review_random():
     num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
-    with open('details.yaml', 'r') as file:
+    with open('config/review_details.yaml', 'r') as file:
         details_dict = yaml.safe_load(file)
 
     for i in range(0, num_posts):
@@ -113,7 +113,7 @@ def product_review_new():
     num_posts = product.shape[0] - 1
     print(f"Will be creating {num_posts} number of posts")
 
-    with open('details.yaml', 'r') as file:
+    with open('config/review_details.yaml', 'r') as file:
         details_dict = yaml.safe_load(file)
 
     idx_rand = 0
