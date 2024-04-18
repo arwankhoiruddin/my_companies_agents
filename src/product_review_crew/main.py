@@ -77,11 +77,11 @@ def wp_post(result, product):
 
 
 def product_review():
+    idx_rand = 4
     product = pd.read_csv("products/products.csv")
-    num_posts = random.randint(30, 40)
+    num_posts = product.shape[0] - idx_rand  # random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
-    idx_rand = 0
     for i in range(0, num_posts):
         try:
             print(f"Preparing post number {i}")

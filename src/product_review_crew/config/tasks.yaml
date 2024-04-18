@@ -37,6 +37,7 @@ final_drafter_task:
     The task of the Final Drafter is to rewrite and improve the draft produced by the Review Drafter 
     by incorporating the critique from the Draft Critique. 
     The final draft should effectively use all or most of the keywords found by the Keyword Researcher for {topic}.
+    First sentence of the final draft is the title of the review.
     The title must be between 60 to 70 characters
   expected_output: >
     A final, polished review that effectively incorporates the provided keywords and information about the product.
