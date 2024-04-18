@@ -80,7 +80,7 @@ def wp_post(result, product):
 
 
 def product_review_random():
-    product = pd.read_csv("products/products.csv")
+    product = pd.read_csv("products/products_all.csv")
     num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
