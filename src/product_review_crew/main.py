@@ -85,7 +85,9 @@ def product_review_random():
     num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
-    with open('config/review_details.yaml', 'r') as file:
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    yaml_file_path = os.path.join(script_dir, 'config', 'review_details.yaml')
+    with open(yaml_file_path, 'r') as file:
         details_dict = yaml.safe_load(file)
 
     for i in range(0, num_posts):
@@ -110,10 +112,12 @@ def product_review_random():
 
 def product_review_new():
     product = pd.read_csv("products/products.csv")
-    num_posts = product.shape[0] - 1
+    num_posts = product.shape[0]
     print(f"Will be creating {num_posts} number of posts")
 
-    with open('config/review_details.yaml', 'r') as file:
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    yaml_file_path = os.path.join(script_dir, 'config', 'review_details.yaml')
+    with open(yaml_file_path, 'r') as file:
         details_dict = yaml.safe_load(file)
 
     idx_rand = 0
@@ -138,7 +142,8 @@ def product_review_new():
 
 
 def run():
-    product_review_new()
+    # product_review_new()
+    product_review_random()
 
 
 if __name__ == '--main__':

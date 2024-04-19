@@ -40,7 +40,7 @@ draft_critique_task:
 final_drafter_task:
   description: >
     The task of the Final Drafter is to rewrite and improve the draft produced by the Review Drafter 
-    by incorporating the critique from the Draft Critique. 
+    based on the input from the Draft Critique. 
     The final draft should effectively use all or most of the keywords found by the Keyword Researcher for {topic}.
     Aspects with no information should not be mentioned in the final draft.
     The reader of this review will be the customer who is interested in purchasing the product.
