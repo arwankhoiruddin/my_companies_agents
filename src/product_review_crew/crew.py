@@ -94,15 +94,11 @@ class ProductReviewCrew():
                     self.product_researcher(),
                     self.keyword_researcher(),
                     self.review_drafter(),
-                    self.draft_critique(),
-                    self.final_drafter(),
                     ],
                 tasks=[
                     self.product_researcher_task(),
                     self.keyword_researcher_task(),
                     self.review_drafter_task(),
-                    self.draft_critique_task(),
-                    self.final_drafter_task(),
                     ],
                 process=Process.sequential,
                 verbose=2

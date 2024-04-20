@@ -22,10 +22,14 @@ review_drafter_task:
     The review should be engaging, informative, and make effective use of the provided keywords.
     If no information is found about a certain aspect (e.g., the author), it should not be mentioned in the review.
     The review should always be written in the third person.
-    The review should not mention about the review process itself.
+    The review should only discuss about the product and never discuss about the review itself.
   expected_output: >
     A well-written review that effectively incorporates the provided keywords and information about the product. 
     The review should be persuasive and highlight the unique features and benefits of the product.
+    The length of the final draft should be more than 800 words.
+    Each paragraph may only contain maximum of 3 sentences.
+    First sentence of the final draft is the title of the review.
+    The title must be between 60 to 70 characters.
 
 draft_critique_task:
   description: >
@@ -39,14 +43,15 @@ draft_critique_task:
 
 final_drafter_task:
   description: >
-    The task of the Final Drafter is to rewrite and improve the draft produced by the Review Drafter 
-    based on the input from the Draft Critique. 
-    The final draft should effectively use all or most of the keywords found by the Keyword Researcher for {topic}.
-    Aspects with no information should not be mentioned in the final draft.
-    The reader of this review will be the customer who is interested in purchasing the product.
-    The final draft should be written in the third person view.
-    First sentence of the final draft is the title of the review.
-    The title must be between 60 to 70 characters.
+    The task of the Final Drafter is to revise the draft produced by the Review Drafter based on the critique provided by the Draft Critique. 
+    The Final Drafter should not repeat the critique verbatim, but rather use it as guidance to improve the draft.
+    The Final Drafter should address all the points raised in the critique, ensuring that the review is persuasive, makes effective use of keywords, and accurately represents the product information.
+    The Final Drafter should also ensure that aspects with no information are not mentioned in the review, that the review is written in the third person, and that the review process is not discussed.
+    The revised review should maintain a length of more than 800 words, with each paragraph containing a maximum of 3 sentences.
+    The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
   expected_output: >
-    A final, polished review that effectively incorporates the provided keywords and information about the product.
-    The review should be engaging, persuasive, and reflect the improvements suggested by the Draft Critique.
+    A revised review that addresses all the points raised in the critique without repeating the critique verbatim. 
+    The review should be persuasive, effectively incorporate the provided keywords, and accurately represent the product information.
+    The review should not mention aspects with no information, should be written in the third person, and should not discuss the review process.
+    The length of the final draft should be more than 800 words, with each paragraph containing a maximum of 3 sentences.
+    The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.

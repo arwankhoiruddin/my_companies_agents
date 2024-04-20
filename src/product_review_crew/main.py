@@ -46,6 +46,9 @@ def wp_post(result, product):
 
     prompt = "Provide a very short rephrased version of the call to action, like act now, order now, get it now, etc, that maintains a direct and imperative tone suitable for a marketing context."
     cta_words = improve_response(prompt, "Order Now!")
+    
+    summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
+    meta_desc = improve_response(summarize_prompt, final_text)
 
     cta_button = f"""
         <p>
@@ -57,6 +60,7 @@ def wp_post(result, product):
     final_text += cta_button
 
     title = title.replace("Title: ", "")
+    product_name = product['product']
     media_id = product['media_id']
     tag_id = product['tag_id']
     if product['type'] == 'supplement':
@@ -73,6 +77,11 @@ def wp_post(result, product):
         "ping_status": "closed",
         "featured_media": int(media_id),
         "tags": tags,
+        "meta": {
+            "rank_math_title": title,
+            "rank_math_description": meta_desc,
+            "rank_math_focus_keyword": product_name
+        }
     }
 
     # Make the POST request with basic authentication
@@ -142,8 +151,8 @@ def product_review_new():
 
 
 def run():
-    # product_review_new()
-    product_review_random()
+    product_review_new()
+    # product_review_random()
 
 
 if __name__ == '--main__':
