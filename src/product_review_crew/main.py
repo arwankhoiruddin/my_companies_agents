@@ -83,7 +83,7 @@ def wp_post(result, product):
     # Data for creating a new post
     data = {
         "title": title,
-        "status": "draft",
+        "status": "publish",
         "content": improved_text,
         "comment_status": "closed",
         "ping_status": "closed",
@@ -172,8 +172,8 @@ def test():
 
 def run():
     # test()
-    product_review_new()
-    # product_review_random()
+    # product_review_new()
+    product_review_random()
 
 
 if __name__ == '--main__':
