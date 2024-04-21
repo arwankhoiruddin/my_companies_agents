@@ -12,7 +12,7 @@ class ProductReviewCrew():
     def __init__(self) -> None:
         self.groq_llm = ChatGroq(
             temperature=0,
-            model_name="mixtral-8x7b-32768"
+            model_name='llama3-70b-8192'  # 'llama3-8b-8192'  # "mixtral-8x7b-32768"
         )
         
     def agent_init(self, agent_name):
@@ -99,11 +99,13 @@ class ProductReviewCrew():
                 agents=[
                     self.problem_identifier(),
                     self.problem_keyword_researcher(),
+                    self.keyword_researcher(),
                     self.problem_expert(),
                     ],
                 tasks=[
                     self.problem_identifier_task(),
                     self.problem_keyword_researcher_task(),
+                    self.keyword_researcher_task(),
                     self.problem_expert_task(),
                     ],
 

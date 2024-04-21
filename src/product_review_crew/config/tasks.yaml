@@ -84,4 +84,4 @@ problem_expert_task:
     Each paragraph may only contain maximum of 3 sentences.
     First sentence of the final draft is the title of the review.
     The title must be between 60 to 70 characters.
-    Mention product {topic} only in the last paragraph.
+    Mention product {topic} only in the last paragraph, using information found by keyword_researcher_task.
