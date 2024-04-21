@@ -172,8 +172,8 @@ def test():
 
 def run():
     # test()
-    # product_review_new()
-    product_review_random()
+    product_review_new()
+    # product_review_random()
 
 
 if __name__ == '--main__':

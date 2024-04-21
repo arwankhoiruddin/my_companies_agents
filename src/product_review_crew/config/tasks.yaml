@@ -72,11 +72,12 @@ problem_keyword_researcher_task:
 
 problem_expert_task:
   description: >
-    The task of the Problem Expert is to write an 800-word article using the keywords found by the problem_keyword_researcher. 
+    The task of the Problem Expert is to write an 800-word article using the first top keyword found by the problem_keyword_researcher. 
     The article should be informative, engaging, and incorporate the keywords in a natural and meaningful way.
     Only use information from the previous agents, and never create new information.
   expected_output: >
-    An 800-word of a narative article that effectively incorporates the provided keywords. 
+    An 800-word of a narative article that effectively incorporates the first top keyword.
+    Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
     The article should be engaging, informative, and written in a way that naturally includes the keywords. 
     The article should be written in the third person and be persuasive, subtly highlighting how understanding the problem can lead to solutions.
     The length of the final draft should be exactly 800 words.
