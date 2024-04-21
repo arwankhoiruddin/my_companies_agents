@@ -30,6 +30,18 @@ def wp_post(result, product):
     for i in range(2, len(results)):
         final_text += results[i] + "<br>"
 
+    # rewrite the final text using gemini
+    print("Rewriting the final text")
+    final_prompt = """
+        Rewrite the following text to make it more engaging and informative:
+        Use third person view
+        Use <h2> for subheaders
+        The output must be in HTML format
+    """
+    improved_text = final_text  # improve_response(final_prompt, final_text)
+    
+    if improved_text == "":
+        improved_text = final_text
     # Upload to wordpress
 
     import requests
@@ -57,7 +69,7 @@ def wp_post(result, product):
         </div>
     """
 
-    final_text += cta_button
+    improved_text += cta_button
 
     title = title.replace("Title: ", "")
     product_name = product['product']
@@ -72,7 +84,7 @@ def wp_post(result, product):
     data = {
         "title": title,
         "status": "draft",
-        "content": final_text,
+        "content": improved_text,
         "comment_status": "closed",
         "ping_status": "closed",
         "featured_media": int(media_id),
@@ -110,7 +122,7 @@ def product_review_random():
                 'topic': product_name,
                 'details': details,
             }
-            result = ProductReviewCrew().crew('product').kickoff(inputs=inputs)
+            result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
             response = wp_post(result, product.iloc[idx_rand])
         except requests.exceptions.HTTPError as e:
             print(e)
@@ -140,7 +152,7 @@ def product_review_new():
                 'topic': product_name,
                 'details': details,
             }
-            result = ProductReviewCrew().crew('product').kickoff(inputs=inputs)
+            result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
             response = wp_post(result, product.iloc[idx_rand])
             idx_rand += 1
         except requests.exceptions.HTTPError as e:
@@ -150,9 +162,18 @@ def product_review_new():
                 time.delay(60)
 
 
+def test():
+    inputs = {
+        'topic': 'The Essential Keto Cookbook',
+    }
+    result = ProductReviewCrew().crew('test').kickoff(inputs=inputs)
+    print(result)
+
+
 def run():
-    product_review_new()
-    # product_review_random()
+    # test()
+    # product_review_new()
+    product_review_random()
 
 
 if __name__ == '--main__':

@@ -18,15 +18,15 @@ keyword_researcher_task:
 review_drafter_task:
   description: >
     The task of the Review Drafter is to create a compelling and persuasive review for {topic} 
-    using the information gathered by the Product Researcher and the keywords identified by the Keyword Researcher. 
+    using the information gathered and the keywords identified by the Keyword Researcher. 
     The review should be engaging, informative, and make effective use of the provided keywords.
-    If no information is found about a certain aspect (e.g., the author), it should not be mentioned in the review.
     The review should always be written in the third person.
-    The review should only discuss about the product and never discuss about the review itself.
+    The review should only discuss about the product reviewed and never discuss about other staffs.
   expected_output: >
     A well-written review that effectively incorporates the provided keywords and information about the product. 
     The review should be persuasive and highlight the unique features and benefits of the product.
     The length of the final draft should be more than 800 words.
+    Never mention the author or the publisher in the review, even if you know the author name.
     Each paragraph may only contain maximum of 3 sentences.
     First sentence of the final draft is the title of the review.
     The title must be between 60 to 70 characters.
@@ -55,3 +55,33 @@ final_drafter_task:
     The review should not mention aspects with no information, should be written in the third person, and should not discuss the review process.
     The length of the final draft should be more than 800 words, with each paragraph containing a maximum of 3 sentences.
     The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
+
+problem_identifier_task:
+  description: >
+    Research the product {topic} to understand the main problem or disease it solves.
+  expected_output: >
+    list of problems or diseases the product {topic} solves.
+
+problem_keyword_researcher_task:
+  description: >
+    The task of the Problem Keyword Researcher is to identify and analyze relevant keywords for SEO optimization and content creation based on the main problem or disease identified by the Problem Identifier. 
+    The Problem Keyword Researcher should use their expertise in keyword research and SEO to find keywords that are relevant, have high search volume, and low competition.
+  expected_output: >
+    A list of relevant keywords for SEO optimization and content creation. 
+    Each keyword should be relevant to the main problems or diseases listed by previous agent, have high search volume, and low competition.
+
+problem_expert_task:
+  description: >
+    The task of the Problem Expert is to write an 800-word article using the keywords found by the problem_keyword_researcher. 
+    The article should be informative, engaging, and incorporate the keywords in a natural and meaningful way.
+    Only use information from the previous agents, and never create new information.
+  expected_output: >
+    An 800-word of a narative article that effectively incorporates the provided keywords. 
+    The article should be engaging, informative, and written in a way that naturally includes the keywords. 
+    The article should be written in the third person and be persuasive, subtly highlighting how understanding the problem can lead to solutions.
+    The length of the final draft should be exactly 800 words.
+    The article only contain paragraphs that are informative and engaging, never put any sections.
+    Each paragraph may only contain maximum of 3 sentences.
+    First sentence of the final draft is the title of the review.
+    The title must be between 60 to 70 characters.
+    Mention product {topic} only in the last paragraph.

@@ -14,102 +14,115 @@ class ProductReviewCrew():
             temperature=0,
             model_name="mixtral-8x7b-32768"
         )
+        
+    def agent_init(self, agent_name):
+        return Agent(
+            config=self.agents_config[agent_name],
+            llm=self.groq_llm
+        )
+        
+    def task_init(self, task_name, agent_name):
+        return Task(
+            config=self.tasks_config[task_name],
+            agent=agent_name
+        )
+        
 
     @agent
     def product_researcher(self) -> Agent:
-        return Agent(
-            config=self.agents_config['product_researcher'],
-            llm=self.groq_llm
-        )
+        return self.agent_init('product_researcher')
 
     @agent
     def keyword_researcher(self) -> Agent:
-        return Agent(
-            config=self.agents_config['keyword_researcher'],
-            llm=self.groq_llm
-        )
+        return self.agent_init('keyword_researcher')
 
     @agent
     def review_drafter(self) -> Agent:
-        return Agent(
-            config=self.agents_config['review_drafter'],
-            llm=self.groq_llm
-        )
+        return self.agent_init('review_drafter')
 
     @agent
     def draft_critique(self) -> Agent:
-        return Agent(
-            config=self.agents_config['draft_critique'],
-            llm=self.groq_llm
-        )
+        return self.agent_init('draft_critique')
 
     @agent
     def final_drafter(self) -> Agent:
-        return Agent(
-            config=self.agents_config['final_drafter'],
-            llm=self.groq_llm
-        )
+        return self.agent_init('final_drafter')
+
+    @agent
+    def problem_identifier(self) -> Agent:
+        return self.agent_init('problem_identifier')
+
+    @agent
+    def problem_keyword_researcher(self) -> Agent:
+        return self.agent_init('problem_keyword_researcher')
+    
+    @agent
+    def problem_expert(self) -> Agent:
+        return self.agent_init('problem_expert')
 
     @task
     def product_researcher_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['product_researcher_task'],
-            agent=self.product_researcher()
-        )
+        return self.task_init('product_researcher_task', self.product_researcher())
 
     @task
     def keyword_researcher_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['keyword_researcher_task'],
-            agent=self.keyword_researcher()
-        )
+        return self.task_init('keyword_researcher_task', self.keyword_researcher())
 
     @task
     def review_drafter_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['review_drafter_task'],
-            agent=self.review_drafter()
-        )
+        return self.task_init('review_drafter_task', self.review_drafter())
 
     @task
     def draft_critique_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['draft_critique_task'],
-            agent=self.draft_critique()
-        )
+        return self.task_init('draft_critique_task', self.draft_critique())
 
     @task
     def final_drafter_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['final_drafter_task'],
-            agent=self.final_drafter()
-        )
+        return self.task_init('final_drafter_task', self.final_drafter())
+
+    @task
+    def problem_identifier_task(self) -> Task:
+        return self.task_init('problem_identifier_task', self.problem_identifier())
+
+    @task
+    def problem_keyword_researcher_task(self) -> Task:
+        return self.task_init('problem_keyword_researcher_task', self.problem_keyword_researcher())
+
+    @task
+    def problem_expert_task(self) -> Task:
+        return self.task_init('problem_expert_task', self.problem_expert())
 
     @crew
-    def crew(self, product_type) -> Crew:
-        """Create crew for Product Review"""
-        if product_type == 'product':
+    def crew(self, task) -> Crew:
+        if task == 'soft_selling':
             return Crew(
                 agents=[
-                    self.product_researcher(),
-                    self.keyword_researcher(),
-                    self.review_drafter(),
+                    self.problem_identifier(),
+                    self.problem_keyword_researcher(),
+                    self.problem_expert(),
                     ],
                 tasks=[
-                    self.product_researcher_task(),
-                    self.keyword_researcher_task(),
-                    self.review_drafter_task(),
+                    self.problem_identifier_task(),
+                    self.problem_keyword_researcher_task(),
+                    self.problem_expert_task(),
                     ],
+
                 process=Process.sequential,
                 verbose=2
             )
-        elif product_type == 'test':
+        elif task == 'test':
             return Crew(
                 agents=[
-                    self.keyword_researcher(),
+                    self.problem_identifier(),
+                    self.problem_keyword_researcher(),
+                    self.problem_expert(),
+                    # self.soft_seller(),
                     ],
                 tasks=[
-                    self.keyword_researcher_task(),
+                    self.problem_identifier_task(),
+                    self.problem_keyword_researcher_task(),
+                    self.problem_expert_task(),
+                    # self.soft_seller_task(),
                     ],
                 process=Process.sequential,
                 verbose=2
