@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import httpx
 from product_review_crew.crew import ProductReviewCrew
 import google.generativeai as genai
 import pandas as pd
@@ -6,6 +7,7 @@ import os
 import requests
 import random
 import yaml
+import time
 
 
 load_dotenv()
@@ -72,6 +74,7 @@ def wp_post(result, product):
     improved_text += cta_button
 
     title = title.replace("Title: ", "")
+    title = title.replace('*', '')
     product_name = product['product']
     media_id = product['media_id']
     tag_id = product['tag_id']
@@ -101,9 +104,8 @@ def wp_post(result, product):
     return response
 
 
-def product_review_random():
+def product_review_random(num_posts):
     product = pd.read_csv("products/products_all.csv")
-    num_posts = random.randint(30, 40)
     print(f"Will be creating {num_posts} number of posts")
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -123,12 +125,24 @@ def product_review_random():
                 'details': details,
             }
             result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
+            time.sleep(30)
             response = wp_post(result, product.iloc[idx_rand])
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
-                import time
-                time.delay(60)
+                time.sleep(60)
+        except httpx.RemoteProtocolError as e:
+            print(e)
+            time.sleep(60)
+        except requests.exceptions.SSLError as e:
+            print(e)
+            # retry to post 3 times
+            for i in range(3):
+                response = wp_post(result, product.iloc[idx_rand])
+                if response.status_code == 200:
+                    break
+                else:
+                    time.sleep(60)
 
 
 def product_review_new():
@@ -158,7 +172,6 @@ def product_review_new():
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
-                import time
                 time.delay(60)
 
 
@@ -173,7 +186,7 @@ def test():
 def run():
     # test()
     # product_review_new()
-    product_review_random()
+    product_review_random(20)
 
 
 if __name__ == '--main__':

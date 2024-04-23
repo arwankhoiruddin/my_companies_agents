@@ -76,13 +76,15 @@ problem_expert_task:
     The article should be informative, engaging, and incorporate the keywords in a natural and meaningful way.
     Only use information from the previous agents, and never create new information.
   expected_output: >
-    An 800-word of a narative article that effectively incorporates the top most searched keyword.
+    An 800-word of a narrative article that effectively incorporates the top most searched keyword.
     Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
     The article should be engaging, informative, and written in a way that naturally includes the keywords. 
     The article should be written in the third person and be persuasive, subtly highlighting how understanding the problem can lead to solutions.
     The length of the final draft should be exactly 800 words.
     The article only contain paragraphs that are informative and engaging, never put any sections.
+    The article must contain between 5 to 9 numbered points, with each point containing a maximum of 3 sentences. Each point should be formatted as an HTML strong tag.
     Each paragraph may only contain maximum of 3 sentences.
-    First sentence of the final draft is the title of the review.
+    First sentence of the final draft is the title of the article.
     The title must be between 60 to 70 characters.
+    The title must show the count of numbered points mentioned in the article (e.g. 5 secret for healthy life, Best 9 ways to do something). Title must be engaging, informative and provoke curiosity
     Mention product {topic} only in the last paragraph, using information found by keyword_researcher_task.
