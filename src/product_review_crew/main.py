@@ -118,7 +118,8 @@ def wp_post(result, product):
 
 
 def product_review_random(num_posts):
-    product = pd.read_csv("products/products_all.csv")
+    file_name = 'products_all.csv'
+    product = pd.read_csv(f"products/{file_name}")
     print(f"Will be creating {num_posts} number of posts")
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -142,7 +143,7 @@ def product_review_random(num_posts):
             time.sleep(30)
             response = wp_post(result, product.iloc[idx_rand])
             product.loc[idx_rand, 'post_count'] += 1
-            product.to_csv('products/products.csv', index=False)
+            product.to_csv(f'products/{file_name}', index=False)
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
@@ -202,7 +203,6 @@ def test():
     
 
 def randomize_product_count():
-    import random
     file_name = 'products_all.csv'
     prod = pd.read_csv(f'products/{file_name}')
     for i in range(0, prod.shape[0]):
@@ -215,7 +215,7 @@ def run():
     # test()
     # product_review_new()
     # randomize_product_count()
-    product_review_random(15)
+    product_review_random(10)
 
 
 if __name__ == '--main__':
