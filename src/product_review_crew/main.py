@@ -73,8 +73,21 @@ def wp_post(result, product):
 
     improved_text += cta_button
 
-    title = title.replace("Title: ", "")
-    title = title.replace('*', '')
+    removed_from_title = [
+        'Title: ',
+        '*',
+        '<h2>',
+        '</h2>',
+        '<h1>',
+        '</h1>',
+        '<p>',
+        '</p>',
+        '<h3>',
+        '</h3>',
+    ]
+    for remov in removed_from_title:
+        title = title.replace(remov, "")
+    
     product_name = product['product']
     media_id = product['media_id']
     tag_id = product['tag_id']
@@ -116,7 +129,8 @@ def product_review_random(num_posts):
     for i in range(0, num_posts):
         try:
             print(f"Preparing post number {i}")
-            idx_rand = random.randint(0, len(product)-1)
+            lowest = product[product['post_count'] == product['post_count'].min()]
+            idx_rand = lowest.index.to_list()[0]
             product_type = product['type'][idx_rand]
             details = details_dict[product_type]['details']
             product_name = product['product'][idx_rand] + f' {product_type}'
@@ -127,6 +141,8 @@ def product_review_random(num_posts):
             result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
             time.sleep(30)
             response = wp_post(result, product.iloc[idx_rand])
+            product.loc[idx_rand, 'post_count'] += 1
+            product.to_csv('products/products.csv', index=False)
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
@@ -155,9 +171,10 @@ def product_review_new():
     with open(yaml_file_path, 'r') as file:
         details_dict = yaml.safe_load(file)
 
-    idx_rand = 0
     for i in range(0, num_posts):
         try:
+            lowest = product[product['post_count'] == product['post_count'].min()]
+            idx_rand = lowest.index.to_list()[0]
             print(f"Preparing post number {i}")
             product_type = product['type'][idx_rand]
             details = details_dict[product_type]['details']
@@ -168,7 +185,8 @@ def product_review_new():
             }
             result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
             response = wp_post(result, product.iloc[idx_rand])
-            idx_rand += 1
+            product.loc[idx_rand, 'post_count'] += 1
+            product.to_csv('products/products.csv', index=False)
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
@@ -181,12 +199,23 @@ def test():
     }
     result = ProductReviewCrew().crew('test').kickoff(inputs=inputs)
     print(result)
+    
+
+def randomize_product_count():
+    import random
+    file_name = 'products_all.csv'
+    prod = pd.read_csv(f'products/{file_name}')
+    for i in range(0, prod.shape[0]):
+        prod.loc[i, 'post_count'] = random.randint(1, 50)
+    prod.to_csv(f'products/{file_name}', index=False)
+    print('Finish randomize post count')
 
 
 def run():
     # test()
     # product_review_new()
-    product_review_random(20)
+    # randomize_product_count()
+    product_review_random(15)
 
 
 if __name__ == '--main__':

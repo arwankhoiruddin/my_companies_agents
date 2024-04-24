@@ -82,9 +82,9 @@ problem_expert_task:
     The article should be written in the third person and be persuasive, subtly highlighting how understanding the problem can lead to solutions.
     The length of the final draft should be exactly 800 words.
     The article only contain paragraphs that are informative and engaging, never put any sections.
-    The article must contain between 5 to 9 numbered points, with each point containing a maximum of 3 sentences. Each point should be formatted as an HTML strong tag.
+    The article must contain between 5 to 9 numbered points, formatted as H3 HTML tag, with each point containing a maximum of 3 sentences.
     Each paragraph may only contain maximum of 3 sentences.
-    First sentence of the final draft is the title of the article.
+    First sentence of the final draft is the title of the article. Never put HTML tag in the first sentence
     The title must be between 60 to 70 characters.
     The title must show the count of numbered points mentioned in the article (e.g. 5 secret for healthy life, Best 9 ways to do something). Title must be engaging, informative and provoke curiosity
     Mention product {topic} only in the last paragraph, using information found by keyword_researcher_task.
