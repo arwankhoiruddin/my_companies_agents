@@ -58,9 +58,15 @@ final_drafter_task:
 
 problem_identifier_task:
   description: >
-    Research the product {topic} to understand the main problem or disease it solves.
+    Research the product {topic} to understand the main problem or disease related to the product.
   expected_output: >
     list of problems or diseases the product {topic} solves.
+
+# problem_identifier_task:
+#   description: >
+#     Research the problem or disease related to the product being discussed. This involves understanding the main problem or disease that the product is designed to address or alleviate.
+#   expected_output: >
+#     A list of problems or diseases that the discussed product is designed to address or alleviate.
 
 problem_keyword_researcher_task:
   description: >
@@ -69,6 +75,7 @@ problem_keyword_researcher_task:
   expected_output: >
     A list of relevant keywords for SEO optimization and content creation. 
     Each keyword should be relevant to the main problems or diseases listed by previous agent, have high search volume, and low competition.
+    Never include the product {topic} in the keywords.
 
 problem_expert_task:
   description: >
@@ -87,14 +94,16 @@ problem_expert_task:
 
 article_expander_task:
   description: >
-    The task of the Article Expander is to take the 800-word article produced by the Problem Expert and expand it to make it more than 800 words. 
+    The task of the Article Expander is to take the article produced by the Problem Expert and expand it to make it around 2000 words. 
     The expansion should maintain the original focus of the article and incorporate additional relevant information.
   expected_output: >
-    An article that is more than 800 words long, starting with an engaging introduction paragraph, and maintaining the original focus while incorporating additional relevant information. 
+    An article that is more than 2000 words long, starting with an engaging introduction paragraph, and maintaining the original focus while incorporating additional relevant information. 
     The expanded article should still be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
     The expanded article should contain more than 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
+    Always use serper_dev_tool to find information about the points in the article. Never fabricate information. 
     The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+    Relate the article with product {topic} for smooth introduction of the product.
     The output should only contain the expanded article content and no additional notes or outputs.
 
 
@@ -111,3 +120,4 @@ final_formatter_task:
     The output should only contain the final formatted article content and no additional notes or outputs.
     Add an introduction paragraph at the beginning of the article. 
     The introduction should set the context for the rest of the article and engage the reader's interest.
+    Ensure that the article has an engaging title that is between 60 to 70 characters long and accurately reflects the content of the article without mentioning the {topic}

@@ -32,6 +32,8 @@ def wp_post(result, product):
     if len(title) > 100:
         prompt = "Provide a shorter title that is less than 70 characters."
         title = improve_response(prompt, title)
+        if title == "":
+            return
     final_text = ""
     for i in range(1, len(results)):
         final_text += results[i] + "<br>"
@@ -68,12 +70,6 @@ def wp_post(result, product):
     summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
     meta_desc = improve_response(summarize_prompt, final_text)
 
-    # cta_button = f"""
-    #     <p>
-    #     <div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
-    #     <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a></div>
-    #     </div>
-    # """
     cta_button = f"""
         <p>
         <a href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a>
@@ -105,6 +101,8 @@ def wp_post(result, product):
         tags = [4, int(tag_id), 5]
     elif product['type'] == 'book':
         tags = [54, int(tag_id), 5]
+    elif product['type'] == 'deliverable':
+        tags = [148, int(tag_id), 5]
 
     # Data for creating a new post
     data = {
@@ -141,7 +139,8 @@ def product_review_random(num_posts):
         try:
             print(f"Preparing post number {i}")
             lowest = product[product['post_count'] == product['post_count'].min()]
-            idx_rand = lowest.index.to_list()[0]
+            idx_list = lowest.index.to_list()
+            idx_rand = random.choice(idx_list) if len(idx_list) > 1 else idx_list[0]
             product_type = product['type'][idx_rand]
             details = details_dict[product_type]['details']
             product_name = product['product'][idx_rand] + f' {product_type}'
@@ -225,7 +224,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(1)
+    product_review_random(2)
 
 
 if __name__ == '--main__':

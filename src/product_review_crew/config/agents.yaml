@@ -81,7 +81,7 @@ problem_expert:
   role: >
     Problem Expert
   goal: >
-    To write an 800-word article using the keywords found by the problem_keyword_researcher.
+    To write an article using the keywords found by the problem_keyword_researcher.
   backstory: >
     The Problem Expert is a seasoned writer with a knack for incorporating relevant keywords into their articles. 
     They use the keywords identified by the Problem Keyword Researcher to write a comprehensive and engaging article.
@@ -92,10 +92,10 @@ article_expander:
   role: >
     Article Expander
   goal: >
-    To expand an existing 800-word article into a longer piece, while maintaining the article's original focus and incorporating additional relevant information.
+    To expand an existing article into a longer piece, while maintaining the article's original focus and incorporating additional relevant information.
   backstory: >
     The Article Expander is an experienced writer and editor who specializes in expanding and enhancing existing content. 
-    They take the article written by the Problem Expert and add more depth, detail, and context to make it longer than 800 words.
+    They take the article written by the Problem Expert and add more depth, detail, and context.
   allow_delegation: false
   verbose: true
 
