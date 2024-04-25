@@ -124,6 +124,47 @@ def wp_post(result, product):
     return response
 
 
+def contains_letters(s):
+    return any(c.isalpha() for c in s)
+
+
+def generate_post(inputs):
+    result = ProductReviewCrew().crew(
+        'article_seed').kickoff(
+            inputs=inputs)
+    results = result.split("\n")
+    print(results)
+    counter = 0
+    expanded = ''
+    for item in results:
+        counter += 1
+        if counter < 4:
+            expanded += item + '\n'
+            continue
+        if item == '':
+            continue
+        if '<h2>' in item:
+            expanded += item + '\n'
+            continue
+        
+        if not contains_letters(item):
+            continue
+        
+        # do not explain the last paragraph and last item
+        if counter > len(results) - 4:
+            expanded += item + '\n'
+            continue
+        explanation_input = {
+            'item': item
+        }
+        print('here')
+        explanation = ProductReviewCrew().crew(
+            'explain').kickoff(
+                inputs=explanation_input)
+        expanded += explanation + '\n'
+    return expanded
+
+
 def product_review_random(num_posts):
     file_name = 'products_all.csv'
     product = pd.read_csv(f"products/{file_name}")
@@ -147,7 +188,7 @@ def product_review_random(num_posts):
                 'topic': product_name,
                 'details': details,
             }
-            result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
+            result = generate_post(inputs)
             time.sleep(30)
             response = wp_post(result, product.iloc[idx_rand])
             product.loc[idx_rand, 'post_count'] += 1
@@ -192,7 +233,7 @@ def product_review_new():
                 'topic': product_name,
                 'details': details,
             }
-            result = ProductReviewCrew().crew('soft_selling').kickoff(inputs=inputs)
+            result = generate_post(inputs)
             response = wp_post(result, product.iloc[idx_rand])
             product.loc[idx_rand, 'post_count'] += 1
             product.to_csv('products/products.csv', index=False)
@@ -206,7 +247,7 @@ def test():
     inputs = {
         'topic': 'The Essential Keto Cookbook',
     }
-    result = ProductReviewCrew().crew('test').kickoff(inputs=inputs)
+    result = generate_post(inputs)
     print(result)
     
 
@@ -214,7 +255,7 @@ def randomize_product_count():
     file_name = 'products_all.csv'
     prod = pd.read_csv(f'products/{file_name}')
     for i in range(0, prod.shape[0]):
-        prod.loc[i, 'post_count'] = random.randint(1, 20)
+        prod.loc[i, 'post_count'] = random.randint(1, 5)
     prod.to_csv(f'products/{file_name}', index=False)
     print('Finish randomize post count')
 
@@ -223,7 +264,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(1)
+    product_review_random(15)
 
 
 if __name__ == '--main__':

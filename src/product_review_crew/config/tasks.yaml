@@ -25,7 +25,7 @@ review_drafter_task:
   expected_output: >
     A well-written review that effectively incorporates the provided keywords and information about the product. 
     The review should be persuasive and highlight the unique features and benefits of the product.
-    The length of the final draft should be more than 2000 words.
+    The length of the final draft should be more than 2500 words.
     Never mention the author or the publisher in the review, even if you know the author name.
     Each paragraph may only contain maximum of 3 sentences.
     First sentence of the final draft is the title of the review.
@@ -47,13 +47,13 @@ final_drafter_task:
     The Final Drafter should not repeat the critique verbatim, but rather use it as guidance to improve the draft.
     The Final Drafter should address all the points raised in the critique, ensuring that the review is persuasive, makes effective use of keywords, and accurately represents the product information.
     The Final Drafter should also ensure that aspects with no information are not mentioned in the review, that the review is written in the third person, and that the review process is not discussed.
-    The revised review should maintain a length of more than 2000 words, with each paragraph containing a maximum of 3 sentences.
+    The revised review should maintain a length of more than 2500 words, with each paragraph containing a maximum of 3 sentences.
     The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
   expected_output: >
     A revised review that addresses all the points raised in the critique without repeating the critique verbatim. 
     The review should be persuasive, effectively incorporate the provided keywords, and accurately represent the product information.
     The review should not mention aspects with no information, should be written in the third person, and should not discuss the review process.
-    The length of the final draft should be more than 2000 words, with each paragraph containing a maximum of 3 sentences.
+    The length of the final draft should be more than 2500 words, with each paragraph containing a maximum of 3 sentences.
     The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
 
 problem_identifier_task:
@@ -79,27 +79,42 @@ problem_keyword_researcher_task:
 
 problem_expert_task:
   description: >
-    The Problem Expert's task is to write an 2000-word article using the top keyword found by the problem_keyword_researcher. 
-    The article should be informative, engaging, and naturally incorporate the keyword. 
+    The Problem Expert's task is to write an 2500-word article using the top keyword found by the problem_keyword_researcher. 
+    The article should be informative, engaging, and naturally incorporate the keyword, written using third person perspective.
     Information from previous agents should be used exclusively.
     The article should be formatted as a list of numbered points.
   expected_output: >
-    An 2000-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
+    An 2500-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
     Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
     The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
-    The article should contain 5 to 9 informative and engaging points. 
+    The article should contain 5 to 9 informative and engaging points. Each point should be between 3 to 5 words long.
+    Each point in the article should be explained in detail.
     The first sentence of the final draft, which is the title, should be between 60 to 70 characters, mention the number of points in the article (e.g. "5 Key Strategies to...", "Get More Power with these 5 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
     The output should only contain the article content and no additional notes or outputs.
 
+explanation_provider_task:
+  description: >
+    The task of the Explanation Provider is provide a detailed explanation on {item}. 
+    The explanation should have 2 paragraphs and be at least 200 words, making the article informative and engaging.
+  expected_output: >
+    Detailed explanations for {item}. 
+    The explanation should have 2 paragraphs and be at least 200 words long, making the explanation informative and engaging. 
+    Always use serper_dev_tool to find facts. Never fabricate any information. 
+    The explanations should subtly highlight how understanding the problem can lead to solutions. 
+    The output should only contain the explanations and no additional notes or outputs.
+    Never mention about the {item} in the explanation.
+    Never conclude the explanation.
+
 article_expander_task:
   description: >
-    The task of the Article Expander is to take the article produced by the Problem Expert and expand it to make it around 2000 words. 
+    The task of the Article Expander is to check if the length of the article has more than 2500 words.
+    If the article is less than 2500 words, expand it until it is more than 2500 words. 
     The expansion should maintain the original focus of the article and incorporate additional relevant information.
   expected_output: >
-    An article that is more than 2000 words long, starting with an engaging introduction paragraph, and maintaining the original focus while incorporating additional relevant information. 
+    An article that is more than 2500 words long, starting with an engaging introduction paragraph, and maintaining the original focus while incorporating additional relevant information. 
     The expanded article should still be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
-    The expanded article should contain more than 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
+    The expanded article should contain more than 5 to 9 informative and engaging points, each point is explained by more than 200 words long paragraph(s). 
     Always use serper_dev_tool to find information about the points in the article. Never fabricate information. 
     The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
@@ -118,7 +133,7 @@ final_formatter_task:
     The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
     The output should only contain the final formatted article content and no additional notes or outputs.
-    Add an introduction paragraph at the beginning of the article. 
+    Add an introduction paragraph at the beginning of the article without mentioning "Introduction:". 
     The introduction should set the context for the rest of the article and engage the reader's interest.
     Ensure that the article has an engaging title that is between 60 to 70 characters long and accurately reflects the content of the article.
     If {topic} is mentioned in the title, remove it and replace it with a more engaging term. 

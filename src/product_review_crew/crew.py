@@ -11,20 +11,21 @@ class ProductReviewCrew():
     tasks_config = 'config/tasks.yaml'
 
     def __init__(self) -> None:
-        model_names = [
+        self.model_names = [
             "mixtral-8x7b-32768",
             "llama3-70b-8192",
-            "llama3-8b-8192"]
-        chosen_model = random.choice(model_names)
-        self.groq_llm = ChatGroq(
+            # "llama3-8b-8192",
+            ]
+
+    def agent_init(self, agent_name):
+        chosen_model = random.choice(self.model_names)
+        groq_llm = ChatGroq(
             temperature=0.5,
             model_name=chosen_model
         )
-
-    def agent_init(self, agent_name):
         return Agent(
             config=self.agents_config[agent_name],
-            llm=self.groq_llm
+            llm=groq_llm
         )
 
     def task_init(self, task_name, agent_name):
@@ -72,68 +73,104 @@ class ProductReviewCrew():
     @agent
     def final_formatter(self) -> Agent:
         return self.agent_init('final_formatter')
+    
+    @agent
+    def explanation_provider(self) -> Agent:
+        return self.agent_init('explanation_provider')
 
     @task
     def product_researcher_task(self) -> Task:
-        return self.task_init('product_researcher_task', self.product_researcher())
+        return self.task_init(
+            'product_researcher_task',
+            self.product_researcher())
 
     @task
     def keyword_researcher_task(self) -> Task:
-        return self.task_init('keyword_researcher_task', self.keyword_researcher())
+        return self.task_init(
+            'keyword_researcher_task',
+            self.keyword_researcher())
 
     @task
     def review_drafter_task(self) -> Task:
-        return self.task_init('review_drafter_task', self.review_drafter())
+        return self.task_init(
+            'review_drafter_task',
+            self.review_drafter())
 
     @task
     def draft_critique_task(self) -> Task:
-        return self.task_init('draft_critique_task', self.draft_critique())
+        return self.task_init(
+            'draft_critique_task',
+            self.draft_critique())
 
     @task
     def final_drafter_task(self) -> Task:
-        return self.task_init('final_drafter_task', self.final_drafter())
+        return self.task_init(
+            'final_drafter_task',
+            self.final_drafter())
 
     @task
     def problem_identifier_task(self) -> Task:
-        return self.task_init('problem_identifier_task', self.problem_identifier())
+        return self.task_init(
+            'problem_identifier_task',
+            self.problem_identifier())
 
     @task
     def problem_keyword_researcher_task(self) -> Task:
-        return self.task_init('problem_keyword_researcher_task', self.problem_keyword_researcher())
+        return self.task_init(
+            'problem_keyword_researcher_task',
+            self.problem_keyword_researcher())
 
     @task
     def problem_expert_task(self) -> Task:
-        return self.task_init('problem_expert_task', self.problem_expert())
+        return self.task_init(
+            'problem_expert_task',
+            self.problem_expert())
     
     @task
     def article_expander_task(self) -> Task:
-        return self.task_init('article_expander_task', self.article_expander())
+        return self.task_init(
+            'article_expander_task',
+            self.article_expander())
     
     @task
     def final_formatter_task(self) -> Task:
-        return self.task_init('final_formatter_task', self.final_formatter())
+        return self.task_init(
+            'final_formatter_task',
+            self.final_formatter())
+    
+    @task
+    def explanation_provider_task(self) -> Task:
+        return self.task_init(
+            'explanation_provider_task',
+            self.explanation_provider())
 
     @crew
     def crew(self, task) -> Crew:
-        if task == 'soft_selling':
+        if task == 'article_seed':
             return Crew(
                 agents=[
                     self.problem_identifier(),
                     self.problem_keyword_researcher(),
-                    self.keyword_researcher(),
                     self.problem_expert(),
-                    self.article_expander(),
                     self.final_formatter(),
                     ],
                 tasks=[
                     self.problem_identifier_task(),
                     self.problem_keyword_researcher_task(),
-                    self.keyword_researcher_task(),
                     self.problem_expert_task(),
-                    self.article_expander_task(),
                     self.final_formatter_task(),
                     ],
-
+                process=Process.sequential,
+                verbose=2
+            )
+        elif task == 'explain':
+            return Crew(
+                agents=[
+                    self.explanation_provider(),
+                    ],
+                tasks=[
+                    self.explanation_provider_task(),
+                    ],
                 process=Process.sequential,
                 verbose=2
             )
@@ -143,13 +180,13 @@ class ProductReviewCrew():
                     self.problem_identifier(),
                     self.problem_keyword_researcher(),
                     self.problem_expert(),
-                    # self.soft_seller(),
+                    self.final_formatter(),
                     ],
                 tasks=[
                     self.problem_identifier_task(),
                     self.problem_keyword_researcher_task(),
                     self.problem_expert_task(),
-                    # self.soft_seller_task(),
+                    self.final_formatter_task(),
                     ],
                 process=Process.sequential,
                 verbose=2

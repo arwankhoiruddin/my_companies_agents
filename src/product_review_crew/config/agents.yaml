@@ -88,6 +88,17 @@ problem_expert:
   allow_delegation: false
   verbose: true
 
+explanation_provider:
+  role: >
+    Explanation Provider
+  goal: >
+    To provide detailed explanations on {item}. Each explanation should be at least 200 words.
+  backstory: >
+    The Explanation Provider is an experienced writer who specializes in providing detailed explanations. 
+    They elaborate on it, ensuring that each explanation has 2 paragraphs and is at least 200 words.
+  allow_delegation: false
+  verbose: true
+
 article_expander:
   role: >
     Article Expander
