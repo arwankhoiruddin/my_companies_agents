@@ -25,9 +25,13 @@ def improve_response(prompt, query):
 
 
 def wp_post(result, product):
+    print('Start posting to wordpress')
     results = result.split("\n")
 
     title = results[0]
+    if len(title) > 100:
+        prompt = "Provide a shorter title that is less than 70 characters."
+        title = improve_response(prompt, title)
     final_text = ""
     for i in range(1, len(results)):
         final_text += results[i] + "<br>"
@@ -55,12 +59,12 @@ def wp_post(result, product):
 
     # URL to send the POST request to
     url = os.getenv('wp_url')
-    
+
     affiliate_url = product['link']
 
     prompt = "Provide a very short rephrased version of the call to action, like act now, order now, get it now, etc, that maintains a direct and imperative tone suitable for a marketing context."
     cta_words = improve_response(prompt, "Order Now!")
-    
+
     summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
     meta_desc = improve_response(summarize_prompt, final_text)
 
@@ -221,7 +225,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(30)
+    product_review_random(1)
 
 
 if __name__ == '--main__':
