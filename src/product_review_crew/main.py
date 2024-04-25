@@ -38,8 +38,6 @@ def wp_post(result, product):
     for i in range(1, len(results)):
         final_text += results[i] + "<br>"
 
-    # rewrite the final text using gemini
-    print("Rewriting the final text")
     final_prompt = """
         Rewrite the following text to make it more engaging and informative:
         Use third person view

@@ -25,7 +25,7 @@ review_drafter_task:
   expected_output: >
     A well-written review that effectively incorporates the provided keywords and information about the product. 
     The review should be persuasive and highlight the unique features and benefits of the product.
-    The length of the final draft should be more than 800 words.
+    The length of the final draft should be more than 2000 words.
     Never mention the author or the publisher in the review, even if you know the author name.
     Each paragraph may only contain maximum of 3 sentences.
     First sentence of the final draft is the title of the review.
@@ -47,13 +47,13 @@ final_drafter_task:
     The Final Drafter should not repeat the critique verbatim, but rather use it as guidance to improve the draft.
     The Final Drafter should address all the points raised in the critique, ensuring that the review is persuasive, makes effective use of keywords, and accurately represents the product information.
     The Final Drafter should also ensure that aspects with no information are not mentioned in the review, that the review is written in the third person, and that the review process is not discussed.
-    The revised review should maintain a length of more than 800 words, with each paragraph containing a maximum of 3 sentences.
+    The revised review should maintain a length of more than 2000 words, with each paragraph containing a maximum of 3 sentences.
     The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
   expected_output: >
     A revised review that addresses all the points raised in the critique without repeating the critique verbatim. 
     The review should be persuasive, effectively incorporate the provided keywords, and accurately represent the product information.
     The review should not mention aspects with no information, should be written in the third person, and should not discuss the review process.
-    The length of the final draft should be more than 800 words, with each paragraph containing a maximum of 3 sentences.
+    The length of the final draft should be more than 2000 words, with each paragraph containing a maximum of 3 sentences.
     The first sentence of the final draft should be the title of the review, which must be between 60 to 70 characters.
 
 problem_identifier_task:
@@ -79,12 +79,12 @@ problem_keyword_researcher_task:
 
 problem_expert_task:
   description: >
-    The Problem Expert's task is to write an 800-word article using the top keyword found by the problem_keyword_researcher. 
+    The Problem Expert's task is to write an 2000-word article using the top keyword found by the problem_keyword_researcher. 
     The article should be informative, engaging, and naturally incorporate the keyword. 
     Information from previous agents should be used exclusively.
     The article should be formatted as a list of numbered points.
   expected_output: >
-    An 800-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
+    An 2000-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
     Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
     The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
     The article should contain 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
