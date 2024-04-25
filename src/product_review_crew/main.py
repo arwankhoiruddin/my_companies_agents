@@ -49,6 +49,7 @@ def wp_post(result, product):
     if improved_text == "":
         improved_text = final_text
     # Upload to wordpress
+    improved_text.replace('Introduction:', '')
 
     import requests
     from requests.auth import HTTPBasicAuth
@@ -61,6 +62,7 @@ def wp_post(result, product):
     url = os.getenv('wp_url')
 
     affiliate_url = product['link']
+    product_name = product['product']
 
     prompt = "Provide a very short rephrased version of the call to action, like act now, order now, get it now, etc, that maintains a direct and imperative tone suitable for a marketing context."
     cta_words = improve_response(prompt, "Order Now!")
@@ -70,7 +72,7 @@ def wp_post(result, product):
 
     cta_button = f"""
         <p>
-        <a href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a>
+        <a href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}. Get Your {product_name}</a>
     """
 
     improved_text += cta_button
@@ -91,8 +93,7 @@ def wp_post(result, product):
     ]
     for remov in removed_from_title:
         title = title.replace(remov, "")
-    
-    product_name = product['product']
+
     media_id = product['media_id']
     tag_id = product['tag_id']
     if product['type'] == 'supplement':
@@ -222,7 +223,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(2)
+    product_review_random(1)
 
 
 if __name__ == '--main__':

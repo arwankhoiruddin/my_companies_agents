@@ -87,7 +87,7 @@ problem_expert_task:
     An 2000-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
     Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
     The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
-    The article should contain 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
+    The article should contain 5 to 9 informative and engaging points. 
     The first sentence of the final draft, which is the title, should be between 60 to 70 characters, mention the number of points in the article (e.g. "5 Key Strategies to...", "Get More Power with these 5 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
     The output should only contain the article content and no additional notes or outputs.
@@ -120,4 +120,5 @@ final_formatter_task:
     The output should only contain the final formatted article content and no additional notes or outputs.
     Add an introduction paragraph at the beginning of the article. 
     The introduction should set the context for the rest of the article and engage the reader's interest.
-    Ensure that the article has an engaging title that is between 60 to 70 characters long and accurately reflects the content of the article without mentioning the {topic}
+    Ensure that the article has an engaging title that is between 60 to 70 characters long and accurately reflects the content of the article.
+    If {topic} is mentioned in the title, remove it and replace it with a more engaging term. 
