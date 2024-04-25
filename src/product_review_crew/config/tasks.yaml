@@ -72,19 +72,42 @@ problem_keyword_researcher_task:
 
 problem_expert_task:
   description: >
-    The task of the Problem Expert is to write an 800-word article using the first top most searched keyword found by the problem_keyword_researcher. 
-    The article should be informative, engaging, and incorporate the keywords in a natural and meaningful way.
-    Only use information from the previous agents, and never create new information.
+    The Problem Expert's task is to write an 800-word article using the top keyword found by the problem_keyword_researcher. 
+    The article should be informative, engaging, and naturally incorporate the keyword. 
+    Information from previous agents should be used exclusively.
+    The article should be formatted as a list of numbered points.
   expected_output: >
-    An 800-word of a narrative article that effectively incorporates the top most searched keyword.
+    An 800-word narrative article incorporating the top keyword, formatted as a list of numbered points. 
     Always use serper_dev_tool to find information about the keyword. Never fabricate information. 
-    The article should be engaging, informative, and written in a way that naturally includes the keywords. 
-    The article should be written in the third person and be persuasive, subtly highlighting how understanding the problem can lead to solutions.
-    The length of the final draft should be exactly 800 words.
-    The article only contain paragraphs that are informative and engaging, never put any sections.
-    The article must contain between 5 to 9 numbered points, formatted as H3 HTML tag, with each point containing a maximum of 3 sentences.
-    Each paragraph may only contain maximum of 3 sentences.
-    First sentence of the final draft is the title of the article. Never put HTML tag in the first sentence
-    The title must be between 60 to 70 characters.
-    The title must show the count of numbered points mentioned in the article (e.g. 5 secret for healthy life, Best 9 ways to do something). Title must be engaging, informative and provoke curiosity
-    Mention product {topic} only in the last paragraph, using information found by keyword_researcher_task.
+    The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
+    The article should contain 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
+    The first sentence of the final draft, which is the title, should be between 60 to 70 characters, mention the number of points in the article (e.g. "5 Key Strategies to...", "Get More Power with these 5 tips..."), and be engaging, informative, and provoke curiosity. 
+    The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+    The output should only contain the article content and no additional notes or outputs.
+
+article_expander_task:
+  description: >
+    The task of the Article Expander is to take the 800-word article produced by the Problem Expert and expand it to make it more than 800 words. 
+    The expansion should maintain the original focus of the article and incorporate additional relevant information.
+  expected_output: >
+    An article that is more than 800 words long, starting with an engaging introduction paragraph, and maintaining the original focus while incorporating additional relevant information. 
+    The expanded article should still be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
+    The expanded article should contain more than 5 to 9 informative and engaging points, each containing a maximum of 7 sentences. 
+    The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
+    The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+    The output should only contain the expanded article content and no additional notes or outputs.
+
+
+final_formatter_task:
+  description: >
+    The task of the Final Formatter is to take the expanded article produced by the Article Expander and apply final formatting. 
+    The formatting should include marking each numbered item with an <h2> tag for better readability and SEO optimization. 
+    The title of the article should not be marked with any HTML tag.
+  expected_output: >
+    A final version of the expanded article with each numbered item (excluding the title) marked with an <h2> tag. 
+    The final article should still be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
+    The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
+    The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+    The output should only contain the final formatted article content and no additional notes or outputs.
+    Add an introduction paragraph at the beginning of the article. 
+    The introduction should set the context for the rest of the article and engage the reader's interest.

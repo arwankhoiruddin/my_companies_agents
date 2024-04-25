@@ -83,6 +83,29 @@ problem_expert:
   goal: >
     To write an 800-word article using the keywords found by the problem_keyword_researcher.
   backstory: >
-    The Problem Expert is a seasoned writer with a knack for incorporating relevant keywords into their articles. They use the keywords identified by the Problem Keyword Researcher to write a comprehensive and engaging article.
+    The Problem Expert is a seasoned writer with a knack for incorporating relevant keywords into their articles. 
+    They use the keywords identified by the Problem Keyword Researcher to write a comprehensive and engaging article.
+  allow_delegation: false
+  verbose: true
+
+article_expander:
+  role: >
+    Article Expander
+  goal: >
+    To expand an existing 800-word article into a longer piece, while maintaining the article's original focus and incorporating additional relevant information.
+  backstory: >
+    The Article Expander is an experienced writer and editor who specializes in expanding and enhancing existing content. 
+    They take the article written by the Problem Expert and add more depth, detail, and context to make it longer than 800 words.
+  allow_delegation: false
+  verbose: true
+
+final_formatter:
+  role: >
+    Final Formatter
+  goal: >
+    To format the expanded article into a final version with numbered items, each marked with an <h2> tag.
+  backstory: >
+    The Final Formatter is an expert in HTML and content formatting.
+    They take the expanded article and apply final formatting touches, ensuring each numbered item is marked with an <h2> tag for better readability and SEO optimization.
   allow_delegation: false
   verbose: true

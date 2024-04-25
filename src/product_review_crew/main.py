@@ -29,7 +29,7 @@ def wp_post(result, product):
 
     title = results[0]
     final_text = ""
-    for i in range(2, len(results)):
+    for i in range(1, len(results)):
         final_text += results[i] + "<br>"
 
     # rewrite the final text using gemini
@@ -64,11 +64,15 @@ def wp_post(result, product):
     summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
     meta_desc = improve_response(summarize_prompt, final_text)
 
+    # cta_button = f"""
+    #     <p>
+    #     <div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+    #     <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a></div>
+    #     </div>
+    # """
     cta_button = f"""
         <p>
-        <div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
-        <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a></div>
-        </div>
+        <a href="{affiliate_url}" target="_blank" rel="noopener">{cta_words}</a>
     """
 
     improved_text += cta_button
@@ -84,6 +88,8 @@ def wp_post(result, product):
         '</p>',
         '<h3>',
         '</h3>',
+        '”',
+        '"'
     ]
     for remov in removed_from_title:
         title = title.replace(remov, "")
@@ -206,16 +212,16 @@ def randomize_product_count():
     file_name = 'products_all.csv'
     prod = pd.read_csv(f'products/{file_name}')
     for i in range(0, prod.shape[0]):
-        prod.loc[i, 'post_count'] = random.randint(1, 50)
+        prod.loc[i, 'post_count'] = random.randint(1, 20)
     prod.to_csv(f'products/{file_name}', index=False)
     print('Finish randomize post count')
 
 
 def run():
     # test()
-    # product_review_new()
     # randomize_product_count()
-    product_review_random(10)
+    # product_review_new()
+    product_review_random(30)
 
 
 if __name__ == '--main__':
