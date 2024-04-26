@@ -58,7 +58,7 @@ final_drafter_task:
 
 problem_identifier_task:
   description: >
-    Research the product {topic} to understand the main problem or disease related to the product.
+    Research the product {topic} that has the following details {product_detail} to understand the main problem or disease related to the product.
   expected_output: >
     list of problems or diseases the product {topic} solves.
 

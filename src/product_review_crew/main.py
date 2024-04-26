@@ -182,11 +182,13 @@ def product_review_random(num_posts):
             idx_list = lowest.index.to_list()
             idx_rand = random.choice(idx_list) if len(idx_list) > 1 else idx_list[0]
             product_type = product['type'][idx_rand]
-            details = details_dict[product_type]['details']
+            details = details_dict[product_type]['details']  # detail of items to be reviewed
+            product_detail = product['product_detail'][idx_rand]
             product_name = product['product'][idx_rand] + f' {product_type}'
             inputs = {
                 'topic': product_name,
                 'details': details,
+                'product_detail': product_detail,
             }
             result = generate_post(inputs)
             time.sleep(30)
@@ -264,7 +266,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(15)
+    product_review_random(20)
 
 
 if __name__ == '--main__':

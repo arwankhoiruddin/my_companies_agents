@@ -59,7 +59,7 @@ problem_identifier:
   role: >
     Soft Seller
   goal: >
-    Identify the main problem/disease solved by the product {topic}
+    Identify the main problem/disease solved by the product {topic} which has the following detail: {product_detail}
   backstory: >
     As a keen observer of market trends and product effectiveness,
     you excel at pinpointing exactly what needs a product addresses
