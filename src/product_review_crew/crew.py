@@ -17,10 +17,10 @@ class ProductReviewCrew():
             # "llama3-8b-8192",
             ]
 
-    def agent_init(self, agent_name):
+    def agent_init(self, agent_name, temperature=0.5):
         chosen_model = random.choice(self.model_names)
         groq_llm = ChatGroq(
-            temperature=0.5,
+            temperature=temperature,
             model_name=chosen_model
         )
         return Agent(
@@ -77,6 +77,14 @@ class ProductReviewCrew():
     @agent
     def explanation_provider(self) -> Agent:
         return self.agent_init('explanation_provider')
+    
+    @agent
+    def journal_reader(self) -> Agent:
+        return self.agent_init('journal_reader', 0)
+    
+    @agent
+    def text_rewriter(self) -> Agent:
+        return self.agent_init('text_rewriter')
 
     @task
     def product_researcher_task(self) -> Task:
@@ -143,6 +151,18 @@ class ProductReviewCrew():
         return self.task_init(
             'explanation_provider_task',
             self.explanation_provider())
+        
+    @task
+    def journal_reader_task(self) -> Task:
+        return self.task_init(
+            'journal_reader_task',
+            self.journal_reader())
+        
+    @task
+    def text_rewriting_task(self) -> Task:
+        return self.task_init(
+            'text_rewriting_task',
+            self.text_rewriter())
 
     @crew
     def crew(self, task) -> Crew:
@@ -153,12 +173,14 @@ class ProductReviewCrew():
                     self.problem_keyword_researcher(),
                     self.problem_expert(),
                     self.final_formatter(),
+                    self.text_rewriter(),
                     ],
                 tasks=[
                     self.problem_identifier_task(),
                     self.problem_keyword_researcher_task(),
                     self.problem_expert_task(),
                     self.final_formatter_task(),
+                    self.text_rewriting_task(),
                     ],
                 process=Process.sequential,
                 verbose=2
@@ -177,16 +199,10 @@ class ProductReviewCrew():
         elif task == 'test':
             return Crew(
                 agents=[
-                    self.problem_identifier(),
-                    self.problem_keyword_researcher(),
-                    self.problem_expert(),
-                    self.final_formatter(),
+                    self.journal_reader(),
                     ],
                 tasks=[
-                    self.problem_identifier_task(),
-                    self.problem_keyword_researcher_task(),
-                    self.problem_expert_task(),
-                    self.final_formatter_task(),
+                    self.journal_reader_task(),
                     ],
                 process=Process.sequential,
                 verbose=2

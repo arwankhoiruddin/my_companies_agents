@@ -106,7 +106,7 @@ def wp_post(result, product):
     # Data for creating a new post
     data = {
         "title": title,
-        "status": "publish",
+        "status": 'draft',  # "publish",
         "content": improved_text,
         "comment_status": "closed",
         "ping_status": "closed",
@@ -136,33 +136,41 @@ def generate_post(inputs):
     print(results)
     counter = 0
     expanded = ''
-    for item in results:
-        counter += 1
-        if counter < 4:
-            expanded += item + '\n'
-            continue
-        if item == '':
-            continue
-        if '<h2>' in item:
-            expanded += item + '\n'
-            continue
-        
-        if not contains_letters(item):
-            continue
-        
-        # do not explain the last paragraph and last item
-        if counter > len(results) - 4:
-            expanded += item + '\n'
-            continue
-        explanation_input = {
-            'item': item
-        }
-        print('here')
-        explanation = ProductReviewCrew().crew(
-            'explain').kickoff(
-                inputs=explanation_input)
-        expanded += explanation + '\n'
-    return expanded
+    # do not explain the last paragraph and last item
+    last_h2_index = 0
+    for i in range(len(results)-1, -1, -1):
+        if "<h2>" in results[i]:
+            last_h2_index = i
+            break
+    if last_h2_index != 0:
+        for item in results:
+            counter += 1
+            if counter < 4:
+                expanded += item + '\n'
+                continue
+            if item == '':
+                continue
+            if '<h2>' in item:
+                expanded += item + '\n'
+                continue
+
+            if not contains_letters(item):
+                continue
+
+            if counter > (last_h2_index + 1):
+                expanded += item + '\n'
+                continue
+            explanation_input = {
+                'item': item
+            }
+            print('here')
+            explanation = ProductReviewCrew().crew(
+                'explain').kickoff(
+                    inputs=explanation_input)
+            expanded += explanation + '\n'
+        return expanded
+    else:
+        return None
 
 
 def product_review_random(num_posts):
@@ -186,15 +194,17 @@ def product_review_random(num_posts):
             product_detail = product['product_detail'][idx_rand]
             product_name = product['product'][idx_rand] + f' {product_type}'
             inputs = {
+                'item': product_name,
                 'topic': product_name,
                 'details': details,
                 'product_detail': product_detail,
             }
             result = generate_post(inputs)
-            time.sleep(30)
-            response = wp_post(result, product.iloc[idx_rand])
-            product.loc[idx_rand, 'post_count'] += 1
-            product.to_csv(f'products/{file_name}', index=False)
+            if result:
+                time.sleep(30)
+                response = wp_post(result, product.iloc[idx_rand])
+                product.loc[idx_rand, 'post_count'] += 1
+                product.to_csv(f'products/{file_name}', index=False)
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
@@ -247,9 +257,11 @@ def product_review_new():
 
 def test():
     inputs = {
-        'topic': 'The Essential Keto Cookbook',
+        'topic': 'Sleep disorder',
     }
-    result = generate_post(inputs)
+    result = ProductReviewCrew().crew(
+        'test').kickoff(
+            inputs=inputs)
     print(result)
     
 
@@ -266,7 +278,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(20)
+    product_review_random(25)
 
 
 if __name__ == '--main__':

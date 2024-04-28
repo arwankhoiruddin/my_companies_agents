@@ -95,10 +95,10 @@ problem_expert_task:
 
 explanation_provider_task:
   description: >
-    The task of the Explanation Provider is provide a detailed explanation on {item}. 
+    The task of the Explanation Provider is provide a detailed explanation on {item}, based on the information from other agent.
     The explanation should have 2 paragraphs and be at least 200 words, making the article informative and engaging.
   expected_output: >
-    Detailed explanations for {item}. 
+    Detailed explanations for {item}, based on the information from other agent. 
     The explanation should have 2 paragraphs and be at least 200 words long, making the explanation informative and engaging. 
     Always use serper_dev_tool to find facts. Never fabricate any information. 
     The explanations should subtly highlight how understanding the problem can lead to solutions. 
@@ -137,3 +137,24 @@ final_formatter_task:
     The introduction should set the context for the rest of the article and engage the reader's interest.
     Ensure that the article has an engaging title that is between 60 to 70 characters long and accurately reflects the content of the article.
     If {topic} is mentioned in the title, remove it and replace it with a more engaging term. 
+
+journal_reader_task:
+  description: >
+    The task of the Journal Reader is to retrieve information related to {item} from academic journals available at https://www.ncbi.nlm.nih.gov/.
+    The Journal Reader should use their skills in web scraping and information retrieval to extract the most relevant and up-to-date information about the {item}.
+  expected_output: >
+    A detailed summary or report containing the most relevant and up-to-date related information about {item} from academic journals available at https://www.ncbi.nlm.nih.gov/.
+    The output should be in a format that can be easily understood and used by other agents or tasks.
+    All outputs must be from the real journal. If no journal is found, mention that no journal is available.
+    Never fabricate any information.
+
+text_rewriting_task:
+  description: >
+    The task of the Text Rewriter is to take the final text produced by the previous tasks and rewrite it to improve its cohesion and coherence, while maintaining the original format.
+    The Text Rewriter should use their skills in language and text processing to enhance the readability and flow of the text, ensuring that the ideas and arguments are logically connected and easy to follow.
+  expected_output: >
+    A rewritten version of the final text that is more cohesive and coherent, but still maintains the original format.
+    The rewritten text should still be engaging, informative, and subtly highlight how understanding the problem can lead to solutions. 
+    The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
+    The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+    The output should only contain the rewritten article content and no additional notes or outputs.
