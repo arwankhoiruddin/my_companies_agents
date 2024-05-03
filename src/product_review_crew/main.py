@@ -32,10 +32,10 @@ def wp_post(title, result, product):
         if title == "":
             return
 
-    improved_text = final_text  # improve_response(final_prompt, final_text)
+    improved_text = result  # improve_response(final_prompt, final_text)
     
     if improved_text == "":
-        improved_text = final_text
+        improved_text = result
     # Upload to wordpress
     improved_text.replace('Introduction:', '')
 
