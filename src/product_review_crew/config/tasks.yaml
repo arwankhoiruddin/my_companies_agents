@@ -99,7 +99,7 @@ explanation_provider_task:
     The explanation should have 2 paragraphs and be at least 200 words, making the article informative and engaging.
   expected_output: >
     Detailed explanations for {item}, based on the information from other agent. 
-    The explanation should have 2 paragraphs and be at least 200 words long, making the explanation informative and engaging. 
+    The explanation must have 2 paragraphs and be at least 200 words long, making the explanation informative and engaging. 
     Always use serper_dev_tool to find facts. Never fabricate any information. 
     The explanations should subtly highlight how understanding the problem can lead to solutions. 
     The output should only contain the explanations and no additional notes or outputs.
@@ -158,3 +158,21 @@ text_rewriting_task:
     The first sentence of the final draft, which is the title, should still be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity. 
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
     The output should only contain the rewritten article content and no additional notes or outputs.
+
+article_writing_task:
+  description: >
+    The task of the Article Writer is to create an article about a specific {topic} using a defined format.
+    The Article Writer should use their skills in content creation and formatting to write an engaging and informative article.
+    The article should maintain a logical flow, be coherent, and subtly highlight how understanding the problem can lead to solutions.
+    The first sentence of the article, which is the title, should be between 60 to 70 characters, mention the number of points in the article (e.g. "7 Key Strategies to...", "Get More Power with these 10 tips..."), and be engaging, informative, and provoke curiosity.
+    The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
+  expected_output: >
+    An article that follows the defined format and is about the specific {topic}.
+    The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions.
+    The format of the article must be as follows:
+      - <H1>Title</H1>: 60 to 70 characters, engaging, informative, and provoking curiosity.
+      - <H2>Point</H2>: Engaging and informative content.
+      - <p>Content</p>: detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
+      - <p>Content</p>: Another detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
+      - ... (Point, Content, Content format may be repeated for N times)
+    Finally, mention the product {topic} in the last point, using information found by the keyword_researcher_task.

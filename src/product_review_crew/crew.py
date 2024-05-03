@@ -163,6 +163,16 @@ class ProductReviewCrew():
         return self.task_init(
             'text_rewriting_task',
             self.text_rewriter())
+        
+    @agent
+    def article_writer(self) -> Agent:
+        return self.agent_init('article_writer')
+    
+    @task
+    def article_writing_task(self) -> Task:
+        return self.task_init(
+            'article_writing_task',
+            self.article_writer())
 
     @crew
     def crew(self, task) -> Crew:
@@ -171,16 +181,18 @@ class ProductReviewCrew():
                 agents=[
                     self.problem_identifier(),
                     self.problem_keyword_researcher(),
-                    self.problem_expert(),
-                    self.final_formatter(),
-                    self.text_rewriter(),
+                    self.article_writer()
+                    # self.problem_expert(),
+                    # self.final_formatter(),
+                    # self.text_rewriter(),
                     ],
                 tasks=[
                     self.problem_identifier_task(),
                     self.problem_keyword_researcher_task(),
-                    self.problem_expert_task(),
-                    self.final_formatter_task(),
-                    self.text_rewriting_task(),
+                    self.article_writing_task(),
+                    # self.problem_expert_task(),
+                    # self.final_formatter_task(),
+                    # self.text_rewriting_task(),
                     ],
                 process=Process.sequential,
                 verbose=2
@@ -199,10 +211,10 @@ class ProductReviewCrew():
         elif task == 'test':
             return Crew(
                 agents=[
-                    self.journal_reader(),
+                    self.article_writer(),
                     ],
                 tasks=[
-                    self.journal_reader_task(),
+                    self.article_writing_task(),
                     ],
                 process=Process.sequential,
                 verbose=2

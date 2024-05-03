@@ -24,26 +24,14 @@ def improve_response(prompt, query):
         return ""
 
 
-def wp_post(result, product):
+def wp_post(title, result, product):
     print('Start posting to wordpress')
-    results = result.split("\n")
-
-    title = results[0]
     if len(title) > 100:
         prompt = "Provide a shorter title that is less than 70 characters."
         title = improve_response(prompt, title)
         if title == "":
             return
-    final_text = ""
-    for i in range(1, len(results)):
-        final_text += results[i] + "<br>"
 
-    final_prompt = """
-        Rewrite the following text to make it more engaging and informative:
-        Use third person view
-        Use <h2> for subheaders
-        The output must be in HTML format
-    """
     improved_text = final_text  # improve_response(final_prompt, final_text)
     
     if improved_text == "":
@@ -134,6 +122,7 @@ def generate_post(inputs):
             inputs=inputs)
     results = result.split("\n")
     print(results)
+    judul = results[0]
     counter = 0
     expanded = ''
     # do not explain the last paragraph and last item
@@ -168,9 +157,53 @@ def generate_post(inputs):
                 'explain').kickoff(
                     inputs=explanation_input)
             expanded += explanation + '\n'
-        return expanded
+        return judul, expanded
     else:
-        return None
+        return None, None
+
+
+def generate_post_formatted(inputs):
+    result = ProductReviewCrew().crew(
+        'article_seed').kickoff(
+            inputs=inputs)
+    results = result.split("\n")
+    judul = results[0]
+    counter = 0
+    expanded = ''
+    last_h2_index = 0
+    for i in range(len(results)-1, -1, -1):
+        if "<H2>" in results[i]:
+            last_h2_index = i
+            break
+    if last_h2_index != 0:
+        for item in results:
+            counter += 1
+            if counter < 4:
+                expanded += item + '\n'
+                continue
+            if item == '':
+                continue
+            if '<H2>' in item:
+                expanded += item + '\n'
+                continue
+
+            if not contains_letters(item):
+                continue
+
+            if counter > (last_h2_index + 1):
+                expanded += item + '\n'
+                continue
+            explanation_input = {
+                'item': item
+            }
+            print('here')
+            explanation = ProductReviewCrew().crew(
+                'explain').kickoff(
+                    inputs=explanation_input)
+            expanded += explanation + '\n'
+        return judul, expanded
+    else:
+        return "", ""
 
 
 def product_review_random(num_posts):
@@ -199,10 +232,11 @@ def product_review_random(num_posts):
                 'details': details,
                 'product_detail': product_detail,
             }
-            result = generate_post(inputs)
-            if result:
+            judul, content = generate_post_formatted(inputs)
+            print(content)
+            if content:
                 time.sleep(30)
-                response = wp_post(result, product.iloc[idx_rand])
+                response = wp_post(judul, content, product.iloc[idx_rand])
                 product.loc[idx_rand, 'post_count'] += 1
                 product.to_csv(f'products/{file_name}', index=False)
         except requests.exceptions.HTTPError as e:
@@ -216,7 +250,7 @@ def product_review_random(num_posts):
             print(e)
             # retry to post 3 times
             for i in range(3):
-                response = wp_post(result, product.iloc[idx_rand])
+                response = wp_post(judul, content, product.iloc[idx_rand])
                 if response.status_code == 200:
                     break
                 else:
@@ -241,11 +275,14 @@ def product_review_new():
             product_type = product['type'][idx_rand]
             details = details_dict[product_type]['details']
             product_name = product['product'][idx_rand] + f' {product_type}'
+            product_detail = product['product_detail'][idx_rand]
             inputs = {
+                'item': product_name,
                 'topic': product_name,
                 'details': details,
+                'product_detail': product_detail,
             }
-            result = generate_post(inputs)
+            result = generate_post_formatted(inputs)
             response = wp_post(result, product.iloc[idx_rand])
             product.loc[idx_rand, 'post_count'] += 1
             product.to_csv('products/products.csv', index=False)
@@ -278,7 +315,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(25)
+    product_review_random(2)
 
 
 if __name__ == '--main__':
