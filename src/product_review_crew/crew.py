@@ -17,7 +17,7 @@ class ProductReviewCrew():
             # "llama3-8b-8192",
             ]
 
-    def agent_init(self, agent_name, temperature=0.5):
+    def agent_init(self, agent_name, temperature=0):
         chosen_model = random.choice(self.model_names)
         groq_llm = ChatGroq(
             temperature=temperature,
@@ -181,9 +181,9 @@ class ProductReviewCrew():
                 agents=[
                     self.problem_identifier(),
                     self.problem_keyword_researcher(),
-                    self.article_writer()
+                    self.article_writer(),
                     # self.problem_expert(),
-                    # self.final_formatter(),
+                    self.final_formatter(),
                     # self.text_rewriter(),
                     ],
                 tasks=[
@@ -191,7 +191,7 @@ class ProductReviewCrew():
                     self.problem_keyword_researcher_task(),
                     self.article_writing_task(),
                     # self.problem_expert_task(),
-                    # self.final_formatter_task(),
+                    self.final_formatter_task(),
                     # self.text_rewriting_task(),
                     ],
                 process=Process.sequential,

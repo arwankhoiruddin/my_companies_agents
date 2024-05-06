@@ -55,8 +55,8 @@ def wp_post(title, result, product):
     prompt = "Provide a very short rephrased version of the call to action, like act now, order now, get it now, etc, that maintains a direct and imperative tone suitable for a marketing context."
     cta_words = improve_response(prompt, "Order Now!")
 
-    summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
-    meta_desc = improve_response(summarize_prompt, final_text)
+    # summarize_prompt = "Provide a short summary containing only 10 words or less that highlights the main benefits of the product."
+    # meta_desc = improve_response(summarize_prompt, final_text)
 
     cta_button = f"""
         <p>
@@ -100,11 +100,11 @@ def wp_post(title, result, product):
         "ping_status": "closed",
         "featured_media": int(media_id),
         "tags": tags,
-        "meta": {
-            "rank_math_title": title,
-            "rank_math_description": meta_desc,
-            "rank_math_focus_keyword": product_name
-        }
+        # "meta": {
+        #     "rank_math_title": title,
+        #     "rank_math_description": meta_desc,
+        #     "rank_math_focus_keyword": product_name
+        # }
     }
 
     # Make the POST request with basic authentication
@@ -163,19 +163,25 @@ def generate_post(inputs):
 
 
 def generate_post_formatted(inputs):
-    result = ProductReviewCrew().crew(
-        'article_seed').kickoff(
-            inputs=inputs)
-    results = result.split("\n")
-    judul = results[0]
-    counter = 0
-    expanded = ''
-    last_h2_index = 0
-    for i in range(len(results)-1, -1, -1):
-        if "<H2>" in results[i]:
-            last_h2_index = i
-            break
-    if last_h2_index != 0:
+    expand = False
+    while True:
+        result = ProductReviewCrew().crew(
+            'article_seed').kickoff(
+                inputs=inputs)
+        results = result.split("\n")
+        judul = results[0]
+        print(results)
+        counter = 0
+        expanded = ''
+        h2_indices = [
+            index for index, element in enumerate(
+                results)
+            if ('<H2>' in element or '<h2>' in element)]
+        # recreate if the document is not formatted with h2
+        if len(h2_indices) == 0:
+            print('recreate the article')
+            continue
+        last_h2_index = h2_indices[len(h2_indices)-1]
         for item in results:
             counter += 1
             if counter < 4:
@@ -193,17 +199,19 @@ def generate_post_formatted(inputs):
             if counter > (last_h2_index + 1):
                 expanded += item + '\n'
                 continue
-            explanation_input = {
-                'item': item
-            }
-            print('here')
-            explanation = ProductReviewCrew().crew(
-                'explain').kickoff(
-                    inputs=explanation_input)
-            expanded += explanation + '\n'
-        return judul, expanded
-    else:
-        return "", ""
+            if expand:
+                explanation_input = {
+                    'item': item
+                }
+                explanation = ProductReviewCrew().crew(
+                    'explain').kickoff(
+                        inputs=explanation_input)
+                expanded += explanation + '\n'
+            else:
+                expanded += item + '\n'
+        if expanded:
+            break
+    return judul, expanded
 
 
 def product_review_random(num_posts):
@@ -315,7 +323,7 @@ def run():
     # test()
     # randomize_product_count()
     # product_review_new()
-    product_review_random(2)
+    product_review_random(1)
 
 
 if __name__ == '--main__':

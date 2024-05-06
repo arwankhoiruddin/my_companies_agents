@@ -93,18 +93,6 @@ problem_expert_task:
     The product {topic} should be mentioned only in the last point, using information found by the keyword_researcher_task.
     The output should only contain the article content and no additional notes or outputs.
 
-explanation_provider_task:
-  description: >
-    The task of the Explanation Provider is provide a detailed explanation on {item}, based on the information from other agent.
-    The explanation should have 2 paragraphs and be at least 200 words, making the article informative and engaging.
-  expected_output: >
-    Detailed explanations for {item}, based on the information from other agent. 
-    The explanation must have 2 paragraphs and be at least 200 words long, making the explanation informative and engaging. 
-    Always use serper_dev_tool to find facts. Never fabricate any information. 
-    The explanations should subtly highlight how understanding the problem can lead to solutions. 
-    The output should only contain the explanations and no additional notes or outputs.
-    Never mention about the {item} in the explanation.
-    Never conclude the explanation.
 
 article_expander_task:
   description: >
@@ -170,9 +158,24 @@ article_writing_task:
     An article that follows the defined format and is about the specific {topic}.
     The article should be engaging, informative, and subtly highlight how understanding the problem can lead to solutions.
     The format of the article must be as follows:
-      - <H1>Title</H1>: 60 to 70 characters, engaging, informative, and provoking curiosity.
-      - <H2>Point</H2>: Engaging and informative content.
-      - <p>Content</p>: detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
-      - <p>Content</p>: Another detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
-      - ... (Point, Content, Content format may be repeated for N times)
+      - Title: 60 to 70 characters, engaging, informative, and provoking curiosity.
+      - Introduction: Engaging and informative introduction to the topic.
+      - <H2>1. Point</H2>: Engaging and informative content.
+      - <p>Content</p>: one paragraph of the detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
+      - <p>Content</p>: one paragraph of the detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
+      - ... (Point, Content format may be repeated for N times - maximum 5 points)
     Finally, mention the product {topic} in the last point, using information found by the keyword_researcher_task.
+
+
+explanation_provider_task:
+  description: >
+    The task of the Explanation Provider is provide a detailed explanation on {item}, based on the information from other agent.
+    The explanation should have 2 paragraphs and be at 6 sentences long, making the article informative and engaging.
+  expected_output: >
+    Detailed explanations for {item}, based on the information from other agent. 
+    The explanation must have 2 paragraphs and be at least 6 sentences long, making the explanation informative and engaging. 
+    Always use serper_dev_tool to find facts. Never fabricate any information. 
+    The explanations should subtly highlight how understanding the problem can lead to solutions. 
+    The output should only contain the explanations and no additional notes or outputs.
+    Never mention about the {item} in the explanation.
+    Never conclude the explanation.
