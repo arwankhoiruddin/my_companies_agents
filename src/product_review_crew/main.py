@@ -243,10 +243,10 @@ def product_review_random(num_posts):
             judul, content = generate_post_formatted(inputs)
             print(content)
             if content:
-                time.sleep(30)
                 response = wp_post(judul, content, product.iloc[idx_rand])
                 product.loc[idx_rand, 'post_count'] += 1
                 product.to_csv(f'products/{file_name}', index=False)
+                time.sleep(30)
         except requests.exceptions.HTTPError as e:
             print(e)
             if response.status_code == 429:
