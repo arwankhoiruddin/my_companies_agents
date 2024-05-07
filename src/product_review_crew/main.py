@@ -183,10 +183,10 @@ def generate_post_formatted(inputs):
             continue
         last_h2_index = h2_indices[len(h2_indices)-1]
         for item in results:
-            counter += 1
-            if counter < 4:
+            if counter > 1 and counter < 4:
                 expanded += item + '\n'
                 continue
+            counter += 1
             if item == '':
                 continue
             if '<H2>' in item:

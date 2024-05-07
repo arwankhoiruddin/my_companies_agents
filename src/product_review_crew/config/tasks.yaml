@@ -160,10 +160,9 @@ article_writing_task:
     The format of the article must be as follows:
       - Title: 60 to 70 characters, engaging, informative, and provoking curiosity.
       - Introduction: Engaging and informative introduction to the topic.
-      - <H2>1. Point</H2>: Engaging and informative content.
-      - <p>Content</p>: one paragraph of the detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
-      - <p>Content</p>: one paragraph of the detailed explanation of the point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
-      - ... (Point, Content format may be repeated for N times - maximum 5 points)
+      - <H2>Point</H2>: Engaging and informative content.
+      - <p>Content</p>: one paragraph of the detailed explanation of the Point. Never mention the {topic} in the content. Always use serper_dev_tool to find information about the point. Never fabricate information.
+      - ... (Point, Content, Content format may be repeated for N times - maximum 5 points)
     Finally, mention the product {topic} in the last point, using information found by the keyword_researcher_task.
 
 
