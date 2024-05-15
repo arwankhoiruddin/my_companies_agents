@@ -16,3 +16,4 @@ uvloop
 watchfiles
 youtube-transcript-api
 yt-dlp
+google-generativeai
