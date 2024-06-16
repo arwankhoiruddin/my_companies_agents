@@ -13,6 +13,7 @@ pandas = "^2.2.2"
 
 [tool.poetry.scripts]
 product_review_crew = "product_review_crew.main:run"
+research_crew = "research_crew.main:run"
 
 [build-system]
 requires = ["poetry-core"]
