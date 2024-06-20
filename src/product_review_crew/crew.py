@@ -85,6 +85,14 @@ class ProductReviewCrew():
     @agent
     def text_rewriter(self) -> Agent:
         return self.agent_init('text_rewriter')
+    
+    @agent
+    def product_keyword_researcher(self) -> Agent:
+        return self.agent_init('product_keyword_researcher')
+    
+    @agent
+    def product_strength_highlighter(self) -> Agent:
+        return self.agent_init('product_strength_highlighter')
 
     @task
     def product_researcher_task(self) -> Task:
@@ -173,6 +181,38 @@ class ProductReviewCrew():
         return self.task_init(
             'article_writing_task',
             self.article_writer())
+        
+    @task
+    def product_keyword_researcher_task(self) -> Task:
+        return self.task_init(
+            'product_keyword_researcher_task',
+            self.product_keyword_researcher())
+        
+    @task
+    def product_strength_highlighter_task(self) -> Task:
+        return self.task_init(
+            'product_strength_highlighter_task',
+            self.product_strength_highlighter())
+        
+    @agent
+    def ads_keywords_and_descriptions_generator(self) -> Agent:
+        return self.agent_init('ads_keywords_and_descriptions_generator')
+    
+    @task
+    def ads_keywords_and_descriptions_generator_task(self) -> Task:
+        return self.task_init(
+            'ads_keywords_and_descriptions_generator_task',
+            self.ads_keywords_and_descriptions_generator())
+        
+    @agent
+    def product_ingredient_summarizer(self) -> Agent:
+        return self.agent_init('product_ingredient_summarizer')
+    
+    @task
+    def product_ingredient_summarizer_task(self) -> Task:
+        return self.task_init(
+            'product_ingredient_summarizer_task',
+            self.product_ingredient_summarizer())
 
     @crew
     def crew(self, task) -> Crew:
@@ -211,11 +251,46 @@ class ProductReviewCrew():
         elif task == 'test':
             return Crew(
                 agents=[
-                    self.article_writer(),
+                    self.product_strength_highlighter(),
                     ],
                 tasks=[
-                    self.article_writing_task(),
+                    self.product_strength_highlighter_task(),
                     ],
                 process=Process.sequential,
                 verbose=2
             )
+        elif task == 'highlight':
+            return Crew(
+                agents=[
+                    self.product_strength_highlighter(),
+                    ],
+                tasks=[
+                    self.product_strength_highlighter_task(),
+                    ],
+                process=Process.sequential,
+                verbose=2
+            )
+        elif task == 'create_ads':
+            return Crew(
+                agents=[
+                    self.ads_keywords_and_descriptions_generator(),
+                    ],
+                tasks=[
+                    self.ads_keywords_and_descriptions_generator_task(),
+                    ],
+                process=Process.sequential,
+                verbose=2
+                
+            )
+        elif task == 'get_ingredients':
+            return Crew(
+                agents=[
+                    self.product_ingredient_summarizer(),
+                    ],
+                tasks=[
+                    self.product_ingredient_summarizer_task(),
+                    ],
+                process=Process.sequential,
+                verbose=2
+            )
+            

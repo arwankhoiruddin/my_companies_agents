@@ -302,14 +302,14 @@ def product_review_new():
 
 def test():
     inputs = {
-        'topic': 'Sleep disorder',
+        'product': 'LavaSlim',
     }
     result = ProductReviewCrew().crew(
         'test').kickoff(
             inputs=inputs)
     print(result)
-    
 
+    
 def randomize_product_count():
     file_name = 'products_all.csv'
     prod = pd.read_csv(f'products/{file_name}')
@@ -319,11 +319,45 @@ def randomize_product_count():
     print('Finish randomize post count')
 
 
+def hightlight_product_strength(product_name):
+    inputs = {
+        'product': product_name,
+    }
+    result = ProductReviewCrew().crew(
+        'highlight').kickoff(
+            inputs=inputs)
+    print(result)
+
+
+def create_ads(topic):
+    inputs = {
+        'topic': topic,
+    }
+    result = ProductReviewCrew().crew(
+        'create_ads').kickoff(
+            inputs=inputs)
+    print(result)
+
+
+def get_ingredients(product_name):
+    inputs = {
+        'product': product_name,
+    }
+    result = ProductReviewCrew().crew(
+        'get_ingredients').kickoff(
+            inputs=inputs)
+    print(result)
+
+
 def run():
-    # test()
+    product_name = 'GlucoBerry: Health Supplement for Regulating Blood Sugar'
+    topic = 'Regulating blood sugar with herbal supplement'
+    create_ads(topic)
+    # hightlight_product_strength(product_name)
+    # get_ingredients(product_name)
     # randomize_product_count()
     # product_review_new()
-    product_review_random(1)
+    # product_review_random(1)
 
 
 if __name__ == '--main__':

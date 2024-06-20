@@ -178,3 +178,49 @@ explanation_provider_task:
     The output should only contain the explanations and no additional notes or outputs.
     Never mention about the {item} in the explanation.
     Never conclude the explanation.
+
+product_keyword_researcher_task:
+  description: >
+    The task of the Product Keyword Researcher is to find and analyze keywords specifically related to {product}. 
+    This involves using advanced search tools and analytics to identify keywords that are highly relevant to {product}, 
+    have a high search volume, but low competition. The researcher should consider the search intent behind each keyword 
+    and how it relates to {product}, focusing on those that could drive targeted traffic to the product's online presence.
+    Treat {product} as a single keyword or product name.
+  expected_output: >
+    A detailed list of keywords related to {product} that includes information on search volume, competition level, 
+    and relevance to the product. The list should prioritize keywords that have the potential to improve SEO rankings 
+    and attract more targeted visitors. Additionally, the report should offer insights into the search intent of each 
+    keyword and suggestions on how they could be integrated into the product's SEO and content strategy.
+    The keywords are ordered by the relevance to the product and the search volume.
+
+product_strength_highlighter_task:
+  description: >
+    The task for the Product Strength Highlighter is to identify and articulate 3-5 key strengths of {product}. 
+    These strengths should highlight the product's unique selling points, competitive advantages, and any innovative features or benefits that set it apart from competitors. 
+    The focus should be on those attributes that are most likely to resonate with the target audience and contribute to the product's market success.
+  expected_output: >
+    A concise list of 3-5 key strengths of {product}, clearly and compellingly presented. 
+    Each item in the list should be a distinct strength, described in one or two sentences that capture its essence and importance. 
+    The list should provide valuable insights into why {product} is superior or preferable compared to other options in the market, 
+    effectively supporting marketing and sales efforts.
+
+ads_keywords_and_descriptions_generator_task:
+  description: >
+    The task for the Ads Keywords and Descriptions Generator is to identify 5 keywords with high search volume related to {topic} and create persuasive, compelling descriptions for each keyword. 
+    These descriptions should effectively highlight the benefits and unique selling points of the product or service, using language that motivates potential customers to click on the ad link and consider making a purchase.
+  expected_output: >
+    A list of 5 keywords, each accompanied by a persuasive and compelling description. 
+    The keywords should be closely related to {topic} and have a high search volume, indicating strong interest among the target audience.
+    Each description should be crafted in a way that it clearly communicates the value and advantages of the product or service, persuading the reader to take action. 
+    The descriptions should be concise, engaging, and tailored to the appeal of the target demographic.
+
+product_ingredient_summarizer_task:
+  description: >
+    The task for the Product Ingredient Summarizer is to provide a clear and concise summary of the ingredients contained in {product}. 
+    This summary should list the ingredients as items, making it easy for consumers to understand what the product consists of. 
+    The focus should be on presenting this information in a straightforward and accessible manner, without overwhelming the reader with technical jargon or unnecessary details.
+  expected_output: >
+    A neatly organized list of ingredients that make up {product}, presented as individual items. 
+    This list should be comprehensive, covering all ingredients in a manner that is easy to read and understand. 
+    The summary aims to enhance transparency and inform consumers about the product's composition, contributing to informed purchasing decisions.
+    Always use rag_tool to get details about the product. Never fabricate any information.
